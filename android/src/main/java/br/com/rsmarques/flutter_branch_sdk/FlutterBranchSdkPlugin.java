@@ -11,6 +11,7 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.braze.Braze;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,9 +96,9 @@ public class FlutterBranchSdkPlugin
 
     if (this.activity != null && FlutterFragmentActivity.class.isAssignableFrom(activity.getClass())) {
       try {
-        Branch.getInstance().setRequestMetadata("$braze_install_id", Appboy.getInstance(this).getInstallTrackingId());
+        Branch.getInstance().setRequestMetadata("$braze_install_id", Braze.getInstance(this).getInstallTrackingId());
       } catch (Exception e) {
-        LogUtils.debug(DEBUG_NAME, "Braze metadata error $e", e.toString());
+        LogUtils.debug(DEBUG_NAME, "Braze metadata error"+ e);
       }
       Branch.sessionBuilder(activity).withCallback(branchReferralInitListener)
           .withData(activity.getIntent() != null ? activity.getIntent().getData() : null).init();
@@ -184,9 +185,9 @@ public class FlutterBranchSdkPlugin
   public void onActivityStarted(Activity activity) {
     LogUtils.debug(DEBUG_NAME, "onActivityStarted call");
     try {
-      Branch.getInstance().setRequestMetadata("$braze_install_id", Appboy.getInstance(this).getInstallTrackingId());
+      Branch.getInstance().setRequestMetadata("$braze_install_id", Braze.getInstance(this).getInstallTrackingId());
     } catch (Exception e) {
-      LogUtils.debug(DEBUG_NAME, "Braze metadata error $e", e.toString());
+      LogUtils.debug(DEBUG_NAME, "Braze metadata error"+ e);
     }
     Branch.sessionBuilder(activity).withCallback(branchReferralInitListener)
         .withData(activity.getIntent() != null ? activity.getIntent().getData() : null).init();
@@ -232,9 +233,9 @@ public class FlutterBranchSdkPlugin
           intent.hasExtra("branch_force_new_session") &&
           intent.getBooleanExtra("branch_force_new_session", false)) {
         try {
-          Branch.getInstance().setRequestMetadata("$braze_install_id", Appboy.getInstance(this).getInstallTrackingId());
+          Branch.getInstance().setRequestMetadata("$braze_install_id", Braze.getInstance(this).getInstallTrackingId());
         } catch (Exception e) {
-          LogUtils.debug(DEBUG_NAME, "Braze metadata error $e", e.toString());
+          LogUtils.debug(DEBUG_NAME, "Braze metadata error"+ e);
         }
         Branch.sessionBuilder(this.activity).withCallback(branchReferralInitListener).reInit();
       }
